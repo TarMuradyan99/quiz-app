@@ -4,7 +4,8 @@ import 'package:quize_app/data/questions.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class QuestionsScreen extends StatefulWidget {
-  const QuestionsScreen({super.key});
+  const QuestionsScreen({super.key, required this.onSelectAnswer});
+  final void Function(String answer) onSelectAnswer;
   @override
   State<QuestionsScreen> createState() {
     return _QuestionsScreenState();
@@ -12,12 +13,11 @@ class QuestionsScreen extends StatefulWidget {
 }
 
 class _QuestionsScreenState extends State<QuestionsScreen> {
- final List<String> selectedAnswers = [];
-
   var currentQuestionIndex = 0;
-  void answerQuestion() {
+  void answerQuestion(selectedAnswer) {
+    widget.onSelectAnswer(selectedAnswer);
     setState(() {
-      if (currentQuestionIndex < questions.length - 1) currentQuestionIndex++;
+      currentQuestionIndex++;
     });
   }
 
@@ -35,7 +35,7 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
             Text(
               currentQuestions.text,
               style: GoogleFonts.dancingScript(
-                color: const Color.fromARGB(255, 190, 184, 184),
+                color: const Color.fromARGB(255, 161, 246, 255),
                 fontSize: 30,
               ),
               textAlign: TextAlign.center,
@@ -44,8 +44,11 @@ class _QuestionsScreenState extends State<QuestionsScreen> {
               height: 30,
             ),
             ...currentQuestions.getShuffledList().map((answer) {
-              return AnswerButton(answerText: answer, onTap: answerQuestion);
-              
+              return AnswerButton(
+                  answerText: answer,
+                  onTap: () {
+                    answerQuestion(answer);
+                  });
             })
           ],
         ),

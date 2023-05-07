@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:quize_app/home_page_design.dart';
 import 'package:quize_app/questions_screen.dart';
+import 'package:quize_app/data/questions.dart';
+import 'package:quize_app/results_screen-widget.dart';
 
 class Quiz extends StatefulWidget {
   const Quiz({super.key});
@@ -11,6 +13,7 @@ class Quiz extends StatefulWidget {
 }
 
 class _QuizState extends State<Quiz> {
+  List<String> selectedAnswers = [];
   var activeScreen = 'start-screen';
 
   @override
@@ -20,16 +23,40 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  void chooseAnswer(String answer) {
+    selectedAnswers.add(answer);
+    if (selectedAnswers.length == questions.length) {
+      setState(() {
+        activeScreen = 'result-screen';
+      });
+    }
+  }
+
+  void restartQuiz() {
+    setState(() {
+      selectedAnswers = [];
+      activeScreen = 'questions-screen';
+    });
+  }
+
   @override
   Widget build(context) {
     Widget screenWidget = Gradient_container(switchScreen);
 
     if (activeScreen == 'questions-scren') {
-      screenWidget = const QuestionsScreen();
+      screenWidget = QuestionsScreen(
+        onSelectAnswer: chooseAnswer,
+      );
+    }
+    if (activeScreen == 'result-screen') {
+      screenWidget = ResultsScreen(
+        chosenAnswers: selectedAnswers,
+        onRestart: restartQuiz,
+      );
     }
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color.fromARGB(115, 0, 0, 0),
+        backgroundColor: const Color.fromARGB(115, 0, 0, 0),
         body: Container(child: screenWidget),
       ),
     );

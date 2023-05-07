@@ -16,12 +16,12 @@ class Gradient_container extends StatelessWidget {
               height: 500,
             ),
              Padding(
-              padding: EdgeInsets.only(bottom: 30.0),
+              padding:const EdgeInsets.only(bottom: 30.0),
               child: Text(
                 'Learn Flutter The fun way!',
                 style: GoogleFonts.pacifico(
                   fontSize: 30,
-                  color: Color.fromRGBO(255, 106, 180, 1),
+                  color:const Color.fromRGBO(255, 161, 246, 255),
                   shadows: <Shadow>[
                    const Shadow(
                       offset: Offset(1, 1),
@@ -45,7 +45,7 @@ class Gradient_container extends StatelessWidget {
                 startQuiz();
               },
               style: OutlinedButton.styleFrom(
-                foregroundColor:const Color.fromRGBO(33, 215, 243, 1),
+                foregroundColor:  Color.fromARGB(255, 161, 246, 255),
               ),
               label: const Text(
                 'Start Quiz',
